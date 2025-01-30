@@ -1,0 +1,36 @@
+<!-- views/pages/checkout.ejs -->
+<%- include('../partials/header') %>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8">
+            <h2 class="mb-4">Checkout</h2>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Order Summary</h5>
+                    <% cart.items.forEach(item => { %>
+                        <div class="d-flex justify-content-between mb-2">
+                            <div><%= item.product.name %> x <%= item.quantity %></div>
+                            <div>$<%= (item.product.price * item.quantity).toFixed(2) %></div>
+                        </div>
+                    <% }) %>
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <h5>Total:</h5>
+                        <h5>$<%= cart.total.toFixed(2) %></h5>
+                    </div>
+                </div>
+            </div>
+
+            <form id="payment-form">
+                <div class="mb-3">
+                    <label class="form-label">Card Details</label>
+                    <div id="card-element" class="form-control"></div>
+                    <div id="card-errors" class="form-error"></div>
+                </div>
+                <button type="submit" class="btn btn-primary">Complete Purchase</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://js.stripe.com/v3/"></script>
+<%- include('../partials/footer') %>

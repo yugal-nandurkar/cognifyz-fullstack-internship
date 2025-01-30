@@ -1,0 +1,22 @@
+// cache/redisClient.js
+const redis = require('redis');
+const { promisify } = require('util');
+
+const client = redis.createClient({
+  url: process.env.REDIS_URL
+});
+
+client.on('error', (err) => console.error('Redis error:', err));
+
+const connect = async () => {
+  await client.connect();
+  console.log('Connected to Redis');
+};
+
+module.exports = {
+  client,
+  get: promisify(client.get).bind(client),
+  set: promisify(client.set).bind(client),
+  del: promisify(client.del).bind(client),
+  connect
+};
