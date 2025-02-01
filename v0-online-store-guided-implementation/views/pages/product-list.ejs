@@ -1,0 +1,55 @@
+<!-- views/pages/product-list.ejs -->
+<%- include('../partials/header') %>
+
+<div class="container mt-4">
+    <h1>Our Products</h1>
+    <!-- Search Input -->
+    <div class="mb-4">
+        <input type="text" id="search" class="form-control" placeholder="Search products...">
+    </div>
+    <!-- Product List -->
+    <div class="row" id="product-list">
+        <!-- Products will be rendered here -->
+    </div>
+</div>
+
+<script>
+    // Function to render products dynamically
+    function renderProducts(products) {
+        const productList = document.getElementById('product-list');
+        productList.innerHTML = '';
+        products.forEach(product => {
+            const col = document.createElement('div');
+            col.className = 'col-md-4 mb-4 product-card';
+            col.innerHTML = `
+                <div class="card">
+                    <img src="${product.image}" class="card-img-top" alt="${product.name}">
+                    <div class="card-body">
+                        <h5 class="card-title">${product.name}</h5>
+                        <p class="card-text">${product.description}</p>
+                        <p class="text-muted">$${product.price}</p>
+                        <button class="btn btn-primary add-to-cart" data-id="${product._id}">Add to Cart</button>
+                    </div>
+                </div>
+            `;
+            productList.appendChild(col);
+        });
+    }
+
+    // Fetch products from the API and render them
+    fetch('/api/products')
+        .then(res => res.json())
+        .then(data => renderProducts(data))
+        .catch(err => console.error('Error fetching products:', err));
+
+    // Search functionality
+    document.getElementById('search').addEventListener('input', (e) => {
+        const term = e.target.value.toLowerCase();
+        document.querySelectorAll('.product-card').forEach(card => {
+            const name = card.querySelector('.card-title').textContent.toLowerCase();
+            card.style.display = name.includes(term) ? 'block' : 'none';
+        });
+    });
+</script>
+
+<%- include('../partials/footer') %>

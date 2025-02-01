@@ -17,6 +17,22 @@
                     <input type="password" name="password" class="form-control" required>
                 </div>
                 <div class="mb-3">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" name="phone" class="form-control"
+                           placeholder="Phone"
+                           oninput="validatePhone(this)"
+                           pattern="[0-9]{10}">
+                    <div class="invalid-feedback">Please enter a valid 10-digit phone number</div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Credit Card</label>
+                    <input type="text" name="card" class="form-control"
+                           placeholder="Credit Card (test: 4111-1111-1111-1111)"
+                           required
+                           pattern="\d{4}-\d{4}-\d{4}-\d{4}">
+                    <div class="invalid-feedback">Please use format: 4111-1111-1111-1111</div>
+                </div>
+                <div class="mb-3">
                     <label class="form-label">Shipping Address</label>
                     <textarea name="address" class="form-control" rows="3"></textarea>
                 </div>
@@ -28,4 +44,19 @@
         </div>
     </div>
 </div>
+<script>
+    function validatePhone(input) {
+        // Basic phone validation (10 digits, allow spaces/dashes/parentheses)
+        const phoneRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
+        const isValid = phoneRegex.test(input.value.replace(/\D/g, ''));
+
+        if (isValid) {
+            input.classList.remove('is-invalid');
+            input.classList.add('is-valid');
+        } else {
+            input.classList.remove('is-valid');
+            input.classList.add('is-invalid');
+        }
+    }
+</script>
 <%- include('../partials/footer') %>

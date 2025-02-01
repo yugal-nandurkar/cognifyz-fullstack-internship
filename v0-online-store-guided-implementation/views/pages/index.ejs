@@ -1,0 +1,21 @@
+<!-- views/pages/index.ejs -->
+<%- include('../partials/header') %>
+<div class="container mt-5">
+    <h1 class="display-4">Welcome to Our Store</h1>
+    <div class="row mt-4">
+        <% featuredProducts.forEach(product => { %>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="<%= product.image %>" class="card-img-top" alt="<%= product.name %>">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= product.name %></h5>
+                        <p class="card-text"><%= product.description.substring(0, 100) %>...</p>
+                        <p class="text-primary h4">$<%= product.price %></p>
+                        <a href="/products/<%= product._id %>" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+</div>
+<%- include('../partials/footer') %>
